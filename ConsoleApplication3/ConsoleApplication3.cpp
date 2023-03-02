@@ -1,24 +1,31 @@
 #include <iostream>
+#include <string>
+#include <fstream>
 using namespace std;
 
+// Declare a structure named "car"
+struct car {
+	string brand;
+	string model;
+	int year;
+};
+
 int main() {
-	struct persoana {
-		char nume[25];
-		int varsta;
-		char stare_civ; //C - casatorit || N - necasatorit
-	};
+	// Create a car structure and store it in myCar1;
+	car myCar1;
+	myCar1.brand = "BMW";
+	myCar1.model = "X5";
+	myCar1.year = 1999;
 
-	struct alldat {
-		persoana descrip;
-		char meniu[25];
-	} s[53];
+	// Create another car structure and store it in myCar2;
+	car myCar2;
+	myCar2.brand = "Ford";
+	myCar2.model = "Mustang";
+	myCar2.year = 1969;
 
-	alldat profesor, student;
-	
-	profesor.descrip.varsta = 34;
-	profesor.descrip.stare_civ = 'C';
+	// Print the structure members
+	cout << myCar1.brand << " " << myCar1.model << " " << myCar1.year << "\n";
+	cout << myCar2.brand << " " << myCar2.model << " " << myCar2.year << "\n";
 
-	//Afisarea
-
-	cout << profesor.descrip.varsta;
+	return 0;
 }
