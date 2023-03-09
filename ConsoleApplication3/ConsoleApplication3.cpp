@@ -19,9 +19,10 @@ int main() {
 
 	// Create another car structure and store it in myCar2;
 	car myCar2;
-	myCar2.brand = "Ford";
-	myCar2.model = "Mustang";
-	myCar2.year = 1969;
+	cin >> myCar2.brand;
+	cin >> myCar2.model;
+	cin >> myCar2.year;
+	
 
 	// Print the structure members
 	cout << myCar1.brand << " " << myCar1.model << " " << myCar1.year << "\n";
