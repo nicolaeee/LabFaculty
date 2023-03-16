@@ -1,3 +1,19 @@
+/*Sa se defineasca tipul de date note cu datele:
+Disciplina - char
+nota - int
+Sa se defineasca tipul de date student cu datele:
+Nume - char
+Prenume -char
+Facultate - string
+note notele[3]
+Sa se creeze un meniu de selectare a urmatoarelor functii:
+- introducere 3 discipline pentru 5 studenti
+- introducere date student, cu notele pentru cele 3 discipline
+- afisare datele studentilor
+- lista mediilor tuturor studentilor
+- lista studentilor in ordine descrescatoare a mediilor celor 3 discipline
+- cautare un student, prin selectareā numelui acestuia din vectorul cu studenti
+- afisarea mediiei maxime, minime si a mediei mediilor pentru studentii din evidenta introdusa*/
 #include <iostream>
 
 using namespace std;
