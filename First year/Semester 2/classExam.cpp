@@ -33,7 +33,7 @@ public:
     //Aici am o metoda care imi afiseaza aceste date de la obiectul pe care am sa l selectez prin .metoda
     void afiseazaDetalii()  {
         cout << "Nume medicament: " << nume << endl;
-        cout << "Concentratie: " << concentr << endl;
+        cout << "Connncentratie: " << concentr << endl;
         cout << "Substanta activa: " << subsAct << endl;
         cout << "Pret: " << pret << endl;
     }
