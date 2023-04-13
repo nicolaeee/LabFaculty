@@ -30,14 +30,15 @@ public:
 		this->marca = marca;
 		this->model = model;
 		this->putere = putere;
-		this->pret = 5000; // valoarea implicită a prețului
-		this->distanteParcurse = nullptr; // valoarea implicită a distanțelor parcurse
-		this->nrDrumuri = 0; // valoarea implicită a numărului de drumuri
 
 	}
 
 	Autoturism(string marca, string model, float* distante, int nrDrumuri)
 	{
+		this->marca = marca;
+		this->model = model;
+		this->distanteParcurse = nullptr; // valoarea implicită a distanțelor parcurse
+		this->nrDrumuri = 0; // valoarea implicită a numărului de drumuri
 	}
 
 	string getMarca()
@@ -48,7 +49,9 @@ public:
 	string getModel() {
 		return model;
 	}
-
+	int getPutere() {
+		return putere;
+	}
 	void setMarca(string marca)
 	{
 		this->marca = marca;
@@ -103,7 +106,7 @@ public:
 		out << "Model: " << a.model << endl;
 		out << "Putere: " << a.putere << " CP" << endl;
 		out << "Pret: " << a.pret << endl;
-		out << "Distante parcurse: " << a.distanteParcurse << endl;
+		out << "Distante parcurse: " << a.distanteParcurse<<" KM" << endl;
 		out << "Numarul de drumuri: " << a.nrDrumuri << endl;
 		return out;
 	}
@@ -199,18 +202,27 @@ int** locuri_libere(Autoturism*** matrice, int nrLinii, int nrColoane)
 int main()
 {
 //1
+
 	Autoturism automobil; // creez un obiect folosind constructorul implicit modficat si dupa folosec metodele date
 	cout << "Marca: " << automobil.getMarca() << endl;
 	cout << "Model: " << automobil.getModel() << endl;
 	cout << "Nr de drumuri: " << automobil.getNrDrumuri() << endl;
 	cout << "Distante parcurse: " << automobil.getDistanteParcurse()<<endl << "\n";
+
 //2
+
 	Autoturism BMW("BMW", "M8 Competition", 100); //creez un obiect folosind constructorul cu 3 parametri si afisarea prin metode
 	cout << "Marca: " << BMW.getMarca() << endl;
 	cout << "Model: " << BMW.getModel() << endl<<"\n";
+	cout << "Pret: " << BMW.getPutere() << endl << "\n";
+
 //Afisare prin functia friend de mai sus
 	cout << BMW << endl << "\n";
 	
+//3
+	Autoturism Merceds("Mercedes", "S CLASS", 24000, 695);
+	cout << "Marca: " << Merceds.getMarca() << endl;
+	cout<<"Model: "<<Merceds.getModel()
 
 
 
