@@ -108,6 +108,9 @@ public:
 
 	void setMarca(string marca)
 	{
+		if (marca.length() >= 3) {
+			this->marca = marca;
+		}
 	}
 
 	int getNrDrumuri()
@@ -285,6 +288,11 @@ int main()
 	autoturism2.setMarca("BMW");
 	cout << "Marca autoturismului original: " << autoturism.getMarca() << endl;
 	cout << "Marca autoturismului nou: " << autoturism2.getMarca() << endl;
+	cout << "\n";
+
+	//6
+	Autoturism a;
+	a.setMarca("Audi");
 	cout << "\n";
 
 
