@@ -13,6 +13,7 @@ private:
 	float* distanteParcurse;
 	int nrDrumuri; //nr de elemente al vectorului de mai sus
 	static int numarAutoturisme;
+	char* taraDeProductie;
 
 public:
 	Autoturism()
@@ -23,66 +24,161 @@ public:
 		pret = 5000;
 		distanteParcurse = nullptr;
 		nrDrumuri = 0;
+		taraDeProductie = nullptr;
 	}
+
 
 	Autoturism(string marca, string model, int putere)
 	{
 		this->marca = marca;
 		this->model = model;
 		this->putere = putere;
-
+		pret = 5000;
+		distanteParcurse = nullptr;
+		nrDrumuri = 0;
+		taraDeProductie = nullptr;
 	}
+
 
 	Autoturism(string marca, string model, float* distante, int nrDrumuri)
 	{
 		this->marca = marca;
 		this->model = model;
-		this->distanteParcurse = nullptr; // valoarea implicită a distanțelor parcurse
-		this->nrDrumuri = 0; // valoarea implicită a numărului de drumuri
+		this->putere = 0;
+		this->pret = 5000;
+		if (nrDrumuri > 0) {
+			this->distanteParcurse = new float[nrDrumuri];
+			for (int i = 0; i < nrDrumuri; i++) {
+				this->distanteParcurse[i] = distante[i];
+			}
+			this->nrDrumuri = nrDrumuri;
+		}
+		else {
+			this->distanteParcurse = nullptr;
+			this->nrDrumuri = 0;
+		}
+		taraDeProductie = nullptr;
 	}
+
+	~Autoturism()
+	{
+		delete[] distanteParcurse;
+		distanteParcurse = nullptr;
+		nrDrumuri = 0;
+		delete[] taraDeProductie;
+		taraDeProductie = nullptr;
+	}
+	Autoturism(const Autoturism& other)
+	{
+		marca = other.marca;
+		model = other.model;
+		putere = other.putere;
+		pret = other.pret;
+		nrDrumuri = other.nrDrumuri;
+		if (nrDrumuri > 0) {
+			distanteParcurse = new float[nrDrumuri];
+			for (int i = 0; i < nrDrumuri; i++) {
+				distanteParcurse[i] = other.distanteParcurse[i];
+			}
+		}
+		else {
+			distanteParcurse = nullptr;
+		}
+		if (other.taraDeProductie != nullptr) {
+			taraDeProductie = new char[strlen(other.taraDeProductie) + 1];
+			strcpy_s(taraDeProductie, strlen(other.taraDeProductie) + 1, other.taraDeProductie);
+		}
+		else {
+			taraDeProductie = nullptr;
+		}
+	}
+
+
+
+
 
 	string getMarca()
 	{
 		return marca;
 	}
 
-	string getModel() {
+	string getModel()
+	{
 		return model;
 	}
-	int getPutere() {
+
+	double getPret()
+	{
+		return pret;
+	}
+
+	int getPutere()
+	{
 		return putere;
 	}
+
+
 	void setMarca(string marca)
 	{
-		this->marca = marca;
+		if (marca.length() >= 3) {
+			this->marca = marca;
+		}
 	}
 
-	int getNrDrumuri()
-	{
-		return 0;
+	int getNrDrumuri() const {
+		return nrDrumuri;
 	}
 
-	float* getDistanteParcurse()
-	{
-		return nullptr;
+
+
+	float* getDistanteParcurse() const {
+		if (nrDrumuri == 0) {
+			return nullptr;
+		}
+		float* copie = new float[nrDrumuri];
+		for (int i = 0; i < nrDrumuri; i++) {
+			copie[i] = distanteParcurse[i];
+		}
+		return copie;
 	}
 
 	void setDistante(float* distanteParcurse, int nrDrumuri)
 	{
+		if (distanteParcurse != nullptr && nrDrumuri > 0) {
+			if (this->distanteParcurse != nullptr) {
+				delete[] this->distanteParcurse;
+			}
+			this->distanteParcurse = new float[nrDrumuri];
+			for (int i = 0; i < nrDrumuri; i++) {
+				this->distanteParcurse[i] = distanteParcurse[i];
+			}
+			this->nrDrumuri = nrDrumuri;
+		}
 	}
 
-	char* getTaraDeProductie()
+
+	char* getTaraDeProductie() const
 	{
-		return nullptr;
+		if (taraDeProductie == nullptr) {
+			return nullptr;
+		}
+		char* copie = new char[strlen(taraDeProductie) + 1];
+		strcpy_s(copie, strlen(taraDeProductie) + 1, taraDeProductie);
+		return copie;
 	}
 
 	void setTaraDeProductie(const char* tara)
 	{
+		if (taraDeProductie != nullptr) {
+			delete[] taraDeProductie;
+		}
+		taraDeProductie = new char[strlen(tara) + 1];
+		strcpy_s(taraDeProductie, strlen(tara) + 1, tara);
 	}
 
-	char* AdresaInceputTaraDeProductie()
+	char* AdresaInceputTaraDeProductie() const
 	{
-		return nullptr;
+		return taraDeProductie;
 	}
 
 	Autoturism operator=(Autoturism a)
@@ -98,20 +194,6 @@ public:
 	void discount(int procent)
 	{
 	}
-
-	//functie prietena pt afisarea intregului obiect fara apelarea fiecarei metode aparte 
-	friend ostream& operator<<(ostream& out, const Autoturism& a)
-	{
-		out << "Marca: " << a.marca << endl;
-		out << "Model: " << a.model << endl;
-		out << "Putere: " << a.putere << " CP" << endl;
-		out << "Pret: " << a.pret << endl;
-		out << "Distante parcurse: " << a.distanteParcurse<<" KM" << endl;
-		out << "Numarul de drumuri: " << a.nrDrumuri << endl;
-		return out;
-	}
-
-	
 };
 
 int Autoturism::numarAutoturisme = 0;
@@ -166,7 +248,7 @@ int Autoturism::numarAutoturisme = 0;
 //aceasta va realiza o copie in profunzime (deep copy) a obiectelor
 //operatorul accepta apeluri in cascada
 
-//12. Modificati constructorii astfel incat serieCaroserie 
+//12. Modificati constructorii astfel incat serieCaroserie
 //sa fie generat unic pe baza campului static
 //campul static fiind comun pentru toate obiectele, poate fi incrementat in constructori
 //iar valoare lui copiata in campul constant serieCaroserie
@@ -201,33 +283,80 @@ int** locuri_libere(Autoturism*** matrice, int nrLinii, int nrColoane)
 
 int main()
 {
-//1
 
-	Autoturism automobil; // creez un obiect folosind constructorul implicit modficat si dupa folosec metodele date
-	cout << "Marca: " << automobil.getMarca() << endl;
-	cout << "Model: " << automobil.getModel() << endl;
-	cout << "Nr de drumuri: " << automobil.getNrDrumuri() << endl;
-	cout << "Distante parcurse: " << automobil.getDistanteParcurse()<<endl << "\n";
+	//1
+	Autoturism masina1;
 
-//2
+	cout << "Marca: " << masina1.getMarca() << endl;
+	cout << "Model: " << masina1.getModel() << endl;
+	cout << "Putere: " << masina1.getPutere() << endl;
+	cout << "Pret: " << masina1.getPret() << endl;
+	cout << "Distante parcurse: " << masina1.getDistanteParcurse() << endl;
+	cout << "Numar drumuri: " << masina1.getNrDrumuri() << endl;
+	cout << "\n";
 
-	Autoturism BMW("BMW", "M8 Competition", 100); //creez un obiect folosind constructorul cu 3 parametri si afisarea prin metode
-	cout << "Marca: " << BMW.getMarca() << endl;
-	cout << "Model: " << BMW.getModel() << endl<<"\n";
-	cout << "Pret: " << BMW.getPutere() << endl << "\n";
+	//2
+	Autoturism masina("Ford", "Fiesta", 90);
+	cout << "Marca: " << masina.getMarca() << endl;
+	cout << "Model: " << masina.getModel() << endl;
+	cout << "Putere: " << masina.getPutere() << endl;
+	cout << "Pret: " << masina.getPret() << endl;
+	cout << "\n";
 
-//Afisare prin functia friend de mai sus
-	cout << BMW << endl << "\n";
-	
-//3
-	Autoturism Merceds("Mercedes", "S CLASS", 24000, 695);
-	cout << "Marca: " << Merceds.getMarca() << endl;
-	cout<<"Model: "<<Merceds.getModel()
+	//3
+	float distante[] = { 100, 200, 300 };
+	int nrDrumuri = 3;
+	Autoturism autoturism("Audi", "A4", distante, nrDrumuri);
+	cout << "Marca: " << autoturism.getMarca() << endl;
+	cout << "Model: " << autoturism.getModel() << endl;
+	cout << "Putere: " << autoturism.getPutere() << endl;
+	cout << "Pret: " << autoturism.getPret() << endl;
+
+	//4 - Efectuat conform cerintelor si am adaugat un destructor
+
+	//5
+	Autoturism autoturism2 = autoturism;
+	autoturism2.setMarca("BMW");
+	cout << "Marca autoturismului original: " << autoturism.getMarca() << endl;
+	cout << "Marca autoturismului nou: " << autoturism2.getMarca() << endl;
+	cout << "\n";
+
+	//6
+	Autoturism a;
+	a.setMarca("Audi");
+	cout << "\n";
+
+	//7
+	cout << "Numar drumuri: " << autoturism.getNrDrumuri() << endl;
+	cout << "Distante parcurse: ";
+	float* distanteParcurse = autoturism.getDistanteParcurse();
+	for (int i = 0; i < nrDrumuri; i++) {
+		cout << distanteParcurse[i] << " ";
+	}
+	cout << endl;
+	cout << "\n";
+
+	//8
+	float distanteNoi[] = { 50, 75, 100 };
+	autoturism.setDistante(distanteNoi, 3);
+	cout << "Numar drumuri: " << autoturism.getNrDrumuri() << endl;
+	cout << "\n";
+
+	//9
+	autoturism.setTaraDeProductie("Germania");
+	char* adresaTara = autoturism.AdresaInceputTaraDeProductie();
+	cout << "Adresa inceputului string-ului taraDeProductie: " << (void*)adresaTara << std::endl;
+
+	//10 - Efectuat conform cerintelor si am adaugat noul camp conform cerintelor
+
+	//11
+
+
+
 
 
 
 
 	return 0;
-
 
 }
