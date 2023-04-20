@@ -16,7 +16,7 @@ private:
 	char* taraDeProductie;
 
 public:
-	Autoturism()
+	Autoturism() : serieCaroserie(++numarAutoturisme)
 	{
 		marca = "Necunoscuta";
 		model = "Necunoscut";
@@ -28,8 +28,7 @@ public:
 	}
 
 
-	Autoturism(string marca, string model, int putere)
-	{
+	Autoturism(string marca, string model, int putere) : serieCaroserie(++numarAutoturisme) {
 		this->marca = marca;
 		this->model = model;
 		this->putere = putere;
@@ -40,7 +39,7 @@ public:
 	}
 
 
-	Autoturism(string marca, string model, float* distante, int nrDrumuri)
+	Autoturism(string marca, string model, float* distante, int nrDrumuri) : serieCaroserie(++numarAutoturisme)
 	{
 		this->marca = marca;
 		this->model = model;
@@ -68,7 +67,8 @@ public:
 		delete[] taraDeProductie;
 		taraDeProductie = nullptr;
 	}
-	Autoturism(const Autoturism& other)
+
+	Autoturism(const Autoturism& other) : serieCaroserie(other.serieCaroserie)
 	{
 		marca = other.marca;
 		model = other.model;
@@ -93,10 +93,6 @@ public:
 		}
 	}
 
-
-
-
-
 	string getMarca()
 	{
 		return marca;
@@ -112,6 +108,11 @@ public:
 		return pret;
 	}
 
+	void setPret(double pret)
+	{
+		this->pret = pret;
+	}
+
 	int getPutere()
 	{
 		return putere;
@@ -124,6 +125,7 @@ public:
 			this->marca = marca;
 		}
 	}
+
 
 	int getNrDrumuri() const {
 		return nrDrumuri;
@@ -181,6 +183,10 @@ public:
 		return taraDeProductie;
 	}
 
+	int getSerieCaroserie() const {
+		return serieCaroserie;
+	}
+
 	Autoturism operator=(Autoturism a)
 	{
 		return *this;
@@ -188,12 +194,24 @@ public:
 
 	static double calcul_valoare_flota(Autoturism masini[], int nr_masini)
 	{
-		return 0;
+		double valoare_totala = 0;
+		for (int i = 0; i < nr_masini; i++) {
+			valoare_totala += masini[i].getPret();
+		}
+		return valoare_totala;
 	}
+
 
 	void discount(int procent)
 	{
+		if (procent < 1 || procent > 50) {
+			return;
+		}
+		double valoare_discount = pret * procent / 100.0;
+		pret -= valoare_discount;
 	}
+
+
 };
 
 int Autoturism::numarAutoturisme = 0;
@@ -281,6 +299,7 @@ int** locuri_libere(Autoturism*** matrice, int nrLinii, int nrColoane)
 }
 
 
+
 int main()
 {
 
@@ -312,6 +331,8 @@ int main()
 	cout << "Putere: " << autoturism.getPutere() << endl;
 	cout << "Pret: " << autoturism.getPret() << endl;
 
+	//4 - Efectuat conform cerintelor si am adaugat un destructor
+
 	//5
 	Autoturism autoturism2 = autoturism;
 	autoturism2.setMarca("BMW");
@@ -340,13 +361,34 @@ int main()
 	cout << "Numar drumuri: " << autoturism.getNrDrumuri() << endl;
 	cout << "\n";
 
+	//9
+	autoturism.setTaraDeProductie("Germania");
+	char* adresaTara = autoturism.AdresaInceputTaraDeProductie();
+	cout << "Adresa inceputului string-ului tara de productie: " << (void*)adresaTara << std::endl;
+	cout << "\n";
+
+	//10 - Efectuat conform cerintelor si am adaugat noul camp conform cerintelor
+
+	//11 --
+
+	//12
+	cout << "Serie caroserie a1: " << autoturism.getSerieCaroserie() << endl;
+	cout << "Serie caroserie a1: " << masina.getSerieCaroserie() << endl;
+
+	//13--
+
+
+	//14
+	a.setPret(10000);
+	a.discount(10);
+	cout << "Pretul masinii dupa discount: " << a.getPret() << endl;
+	cout << "\n";
+
+	//15--
 
 
 
 
 
-
-
-	return 0;
 
 }
