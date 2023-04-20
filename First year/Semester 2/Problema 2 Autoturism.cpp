@@ -132,7 +132,18 @@ public:
 
 	void setDistante(float* distanteParcurse, int nrDrumuri)
 	{
+		if (distanteParcurse != nullptr && nrDrumuri > 0) {
+			if (this->distanteParcurse != nullptr) {
+				delete[] this->distanteParcurse;
+			}
+			this->distanteParcurse = new float[nrDrumuri];
+			for (int i = 0; i < nrDrumuri; i++) {
+				this->distanteParcurse[i] = distanteParcurse[i];
+			}
+			this->nrDrumuri = nrDrumuri;
+		}
 	}
+
 
 	char* getTaraDeProductie()
 	{
@@ -299,6 +310,12 @@ int main()
 		cout << distanteParcurse[i] << " ";
 	}
 	cout << endl;
+	cout << "\n";
+
+	//8
+	float distanteNoi[] = { 50, 75, 100 };
+	autoturism.setDistante(distanteNoi, 3);
+	cout << "Numar drumuri: " << autoturism.getNrDrumuri() << endl;
 	cout << "\n";
 
 
