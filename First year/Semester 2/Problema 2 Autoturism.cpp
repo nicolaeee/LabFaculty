@@ -295,9 +295,20 @@ int Autoturism::numarAutoturisme = 0;
 //sunt ocupate de doua masini cu 160, respectiv 75 de cai putere, s.a.m.d.
 int** locuri_libere(Autoturism*** matrice, int nrLinii, int nrColoane)
 {
-	return nullptr;
+	int** locuriParcare = new int* [nrLinii];
+	for (int i = 0; i < nrLinii; i++) {
+		locuriParcare[i] = new int[nrColoane];
+		for (int j = 0; j < nrColoane; j++) {
+			if (matrice[i][j] == nullptr) {
+				locuriParcare[i][j] = 0;
+			}
+			else {
+				locuriParcare[i][j] = matrice[i][j]->getPutere();
+			}
+		}
+	}
+	return locuriParcare;
 }
-
 
 
 int main()
@@ -384,7 +395,7 @@ int main()
 	cout << "Pretul masinii dupa discount: " << a.getPret() << endl;
 	cout << "\n";
 
-	//15--
+	//15
 
 
 
