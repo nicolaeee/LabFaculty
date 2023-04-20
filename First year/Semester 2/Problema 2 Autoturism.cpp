@@ -114,6 +114,11 @@ public:
 		return pret;
 	}
 
+	void setPret(double pret)
+	{
+		this->pret = pret;
+	}
+
 	int getPutere()
 	{
 		return putere;
@@ -190,15 +195,26 @@ public:
 	{
 		return *this;
 	}
-
 	static double calcul_valoare_flota(Autoturism masini[], int nr_masini)
 	{
-		return 0;
+		double valoare_totala = 0;
+		for (int i = 0; i < nr_masini; i++) {
+			valoare_totala += masini[i].getPret();
+		}
+		return valoare_totala;
 	}
+
 
 	void discount(int procent)
 	{
+		if (procent < 1 || procent > 50) {
+			return;
+		}
+		double valoare_discount = pret * procent / 100.0;
+		pret -= valoare_discount;
 	}
+
+
 };
 
 int Autoturism::numarAutoturisme = 0;
@@ -351,6 +367,7 @@ int main()
 	autoturism.setTaraDeProductie("Germania");
 	char* adresaTara = autoturism.AdresaInceputTaraDeProductie();
 	cout << "Adresa inceputului string-ului tara de productie: " << (void*)adresaTara << std::endl;
+	cout << "\n";
 
 	//10 - Efectuat conform cerintelor si am adaugat noul camp conform cerintelor
 
@@ -360,6 +377,25 @@ int main()
 	cout << "Serie caroserie a1: " << autoturism.getSerieCaroserie() <<endl;
 	cout << "Serie caroserie a1: " << masina.getSerieCaroserie() << endl;
 
+	//13
+	Autoturism masini[3];
+
+	// seteaza preturile masinilor din vector
+	masini[0].setPret(100);
+	masini[1].setPret(150);
+	masini[2].setPret(200);
+
+	// calculeaza valoarea totala a flotei de autoturisme si afiseaza rezultatul
+	double valoareFlota = Autoturism::calcul_valoare_flota(masini, 3);
+	cout << "Valoarea totala a flotei este: " << valoareFlota << endl;
+	cout << "\n";
+
+
+	//14
+	a.setPret(10000);
+	a.discount(10);
+	cout << "Pretul masinii dupa discount: " << a.getPret() << endl;
+	cout << "\n";
 
 
 
