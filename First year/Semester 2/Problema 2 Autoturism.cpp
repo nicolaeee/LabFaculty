@@ -30,15 +30,14 @@ public:
 		this->marca = marca;
 		this->model = model;
 		this->putere = putere;
-
+		pret = 5000;
+		distanteParcurse = nullptr;
+		nrDrumuri = 0;
 	}
+
 
 	Autoturism(string marca, string model, float* distante, int nrDrumuri)
 	{
-		this->marca = marca;
-		this->model = model;
-		this->distanteParcurse = nullptr; // valoarea implicită a distanțelor parcurse
-		this->nrDrumuri = 0; // valoarea implicită a numărului de drumuri
 	}
 
 	string getMarca()
@@ -46,21 +45,32 @@ public:
 		return marca;
 	}
 
-	string getModel() {
+	string getModel()
+	{
 		return model;
 	}
-	int getPutere() {
+
+	double getPret()
+	{
+		return pret;
+	}
+
+	int getPutere()
+	{
 		return putere;
 	}
+
+
 	void setMarca(string marca)
 	{
-		this->marca = marca;
 	}
 
 	int getNrDrumuri()
 	{
-		return 0;
+		return nrDrumuri;
 	}
+
+
 
 	float* getDistanteParcurse()
 	{
@@ -98,20 +108,6 @@ public:
 	void discount(int procent)
 	{
 	}
-
-	//functie prietena pt afisarea intregului obiect fara apelarea fiecarei metode aparte 
-	friend ostream& operator<<(ostream& out, const Autoturism& a)
-	{
-		out << "Marca: " << a.marca << endl;
-		out << "Model: " << a.model << endl;
-		out << "Putere: " << a.putere << " CP" << endl;
-		out << "Pret: " << a.pret << endl;
-		out << "Distante parcurse: " << a.distanteParcurse<<" KM" << endl;
-		out << "Numarul de drumuri: " << a.nrDrumuri << endl;
-		return out;
-	}
-
-	
 };
 
 int Autoturism::numarAutoturisme = 0;
@@ -166,7 +162,7 @@ int Autoturism::numarAutoturisme = 0;
 //aceasta va realiza o copie in profunzime (deep copy) a obiectelor
 //operatorul accepta apeluri in cascada
 
-//12. Modificati constructorii astfel incat serieCaroserie 
+//12. Modificati constructorii astfel incat serieCaroserie
 //sa fie generat unic pe baza campului static
 //campul static fiind comun pentru toate obiectele, poate fi incrementat in constructori
 //iar valoare lui copiata in campul constant serieCaroserie
@@ -201,33 +197,22 @@ int** locuri_libere(Autoturism*** matrice, int nrLinii, int nrColoane)
 
 int main()
 {
-//1
 
-	Autoturism automobil; // creez un obiect folosind constructorul implicit modficat si dupa folosec metodele date
-	cout << "Marca: " << automobil.getMarca() << endl;
-	cout << "Model: " << automobil.getModel() << endl;
-	cout << "Nr de drumuri: " << automobil.getNrDrumuri() << endl;
-	cout << "Distante parcurse: " << automobil.getDistanteParcurse()<<endl << "\n";
+	//1
+	Autoturism masina1;
 
-//2
+	cout << "Marca: " << masina1.getMarca() << endl;
+	cout << "Model: " << masina1.getModel() << endl;
+	cout << "Putere: " << masina1.getPutere() << endl;
+	cout << "Pret: " << masina1.getPret() << endl;
+	cout << "Distante parcurse: " << masina1.getDistanteParcurse() << endl;
+	cout << "Numar drumuri: " << masina1.getNrDrumuri() << endl;
 
-	Autoturism BMW("BMW", "M8 Competition", 100); //creez un obiect folosind constructorul cu 3 parametri si afisarea prin metode
-	cout << "Marca: " << BMW.getMarca() << endl;
-	cout << "Model: " << BMW.getModel() << endl<<"\n";
-	cout << "Pret: " << BMW.getPutere() << endl << "\n";
-
-//Afisare prin functia friend de mai sus
-	cout << BMW << endl << "\n";
-	
-//3
-	Autoturism Merceds("Mercedes", "S CLASS", 24000, 695);
-	cout << "Marca: " << Merceds.getMarca() << endl;
-	cout<<"Model: "<<Merceds.getModel()
-
-
-
-
-	return 0;
-
+	//2
+	Autoturism masina("Ford", "Fiesta", 90);
+	cout << "Marca: " << masina.getMarca() << endl;
+	cout << "Model: " << masina.getModel() << endl;
+	cout << "Putere: " << masina.getPutere() << endl;
+	cout << "Pret: " << masina.getPret() << endl;
 
 }
