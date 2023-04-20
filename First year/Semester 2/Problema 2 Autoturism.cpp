@@ -16,7 +16,7 @@ private:
 	char* taraDeProductie;
 
 public:
-	Autoturism()
+	Autoturism() : serieCaroserie(++numarAutoturisme)
 	{
 		marca = "Necunoscuta";
 		model = "Necunoscut";
@@ -28,8 +28,7 @@ public:
 	}
 
 
-	Autoturism(string marca, string model, int putere)
-	{
+	Autoturism(string marca, string model, int putere) : serieCaroserie(++numarAutoturisme) {
 		this->marca = marca;
 		this->model = model;
 		this->putere = putere;
@@ -40,7 +39,7 @@ public:
 	}
 
 
-	Autoturism(string marca, string model, float* distante, int nrDrumuri)
+	Autoturism(string marca, string model, float* distante, int nrDrumuri) : serieCaroserie(++numarAutoturisme)
 	{
 		this->marca = marca;
 		this->model = model;
@@ -68,7 +67,8 @@ public:
 		delete[] taraDeProductie;
 		taraDeProductie = nullptr;
 	}
-	Autoturism(const Autoturism& other)
+
+	Autoturism(const Autoturism& other) : serieCaroserie(other.serieCaroserie)
 	{
 		marca = other.marca;
 		model = other.model;
@@ -92,6 +92,8 @@ public:
 			taraDeProductie = nullptr;
 		}
 	}
+
+
 
 
 
@@ -181,6 +183,9 @@ public:
 		return taraDeProductie;
 	}
 
+	int getSerieCaroserie() const {
+		return serieCaroserie;
+	}
 	Autoturism operator=(Autoturism a)
 	{
 		return *this;
@@ -345,11 +350,15 @@ int main()
 	//9
 	autoturism.setTaraDeProductie("Germania");
 	char* adresaTara = autoturism.AdresaInceputTaraDeProductie();
-	cout << "Adresa inceputului string-ului taraDeProductie: " << (void*)adresaTara << std::endl;
+	cout << "Adresa inceputului string-ului tara de productie: " << (void*)adresaTara << std::endl;
 
 	//10 - Efectuat conform cerintelor si am adaugat noul camp conform cerintelor
 
-	//11
+	//11 --
+
+	//12 
+	cout << "Serie caroserie a1: " << autoturism.getSerieCaroserie() <<endl;
+	cout << "Serie caroserie a1: " << masina.getSerieCaroserie() << endl;
 
 
 
