@@ -63,6 +63,26 @@ public:
 		nrDrumuri = 0;
 	}
 
+	Autoturism(const Autoturism& other)
+	{
+		marca = other.marca;
+		model = other.model;
+		putere = other.putere;
+		pret = other.pret;
+		nrDrumuri = other.nrDrumuri;
+		if (nrDrumuri > 0) {
+			distanteParcurse = new float[nrDrumuri];
+			for (int i = 0; i < nrDrumuri; i++) {
+				distanteParcurse[i] = other.distanteParcurse[i];
+			}
+		}
+		else {
+			distanteParcurse = nullptr;
+		}
+	}
+
+
+
 
 
 	string getMarca()
@@ -99,7 +119,7 @@ public:
 
 	float* getDistanteParcurse()
 	{
-		return nullptr;
+		return distanteParcurse;
 	}
 
 	void setDistante(float* distanteParcurse, int nrDrumuri)
@@ -232,6 +252,7 @@ int main()
 	cout << "Pret: " << masina1.getPret() << endl;
 	cout << "Distante parcurse: " << masina1.getDistanteParcurse() << endl;
 	cout << "Numar drumuri: " << masina1.getNrDrumuri() << endl;
+	cout << "\n";
 
 	//2
 	Autoturism masina("Ford", "Fiesta", 90);
@@ -239,6 +260,7 @@ int main()
 	cout << "Model: " << masina.getModel() << endl;
 	cout << "Putere: " << masina.getPutere() << endl;
 	cout << "Pret: " << masina.getPret() << endl;
+	cout << "\n";
 
 	//3
 	float distante[] = { 100, 200, 300 };
@@ -255,5 +277,21 @@ int main()
 		cout << distanteParcurse[i] << " ";
 	}
 	cout << endl;
+	cout << "\n";
+
+
+	//5
+	Autoturism autoturism2 = autoturism;
+	autoturism2.setMarca("BMW");
+	cout << "Marca autoturismului original: " << autoturism.getMarca() << endl;
+	cout << "Marca autoturismului nou: " << autoturism2.getMarca() << endl;
+	cout << "\n";
+
+
+
+
+
+
+	return 0;
 
 }
