@@ -113,16 +113,21 @@ public:
 		}
 	}
 
-	int getNrDrumuri()
-	{
+	int getNrDrumuri() const {
 		return nrDrumuri;
 	}
 
 
 
-	float* getDistanteParcurse()
-	{
-		return distanteParcurse;
+	float* getDistanteParcurse() const {
+		if (nrDrumuri == 0) {
+			return nullptr;
+		}
+		float* copie = new float[nrDrumuri];
+		for (int i = 0; i < nrDrumuri; i++) {
+			copie[i] = distanteParcurse[i];
+		}
+		return copie;
 	}
 
 	void setDistante(float* distanteParcurse, int nrDrumuri)
@@ -273,15 +278,6 @@ int main()
 	cout << "Model: " << autoturism.getModel() << endl;
 	cout << "Putere: " << autoturism.getPutere() << endl;
 	cout << "Pret: " << autoturism.getPret() << endl;
-	cout << "Numar drumuri: " << autoturism.getNrDrumuri() << endl;
-	cout << "Distante parcurse: ";
-	float* distanteParcurse = autoturism.getDistanteParcurse();
-	for (int i = 0; i < nrDrumuri; i++) {
-		cout << distanteParcurse[i] << " ";
-	}
-	cout << endl;
-	cout << "\n";
-
 
 	//5
 	Autoturism autoturism2 = autoturism;
@@ -294,6 +290,18 @@ int main()
 	Autoturism a;
 	a.setMarca("Audi");
 	cout << "\n";
+
+	//7
+	cout << "Numar drumuri: " << autoturism.getNrDrumuri() << endl;
+	cout << "Distante parcurse: ";
+	float* distanteParcurse = autoturism.getDistanteParcurse();
+	for (int i = 0; i < nrDrumuri; i++) {
+		cout << distanteParcurse[i] << " ";
+	}
+	cout << endl;
+	cout << "\n";
+
+
 
 
 
