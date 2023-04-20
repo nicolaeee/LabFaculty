@@ -25,6 +25,7 @@ public:
 		nrDrumuri = 0;
 	}
 
+
 	Autoturism(string marca, string model, int putere)
 	{
 		this->marca = marca;
@@ -54,6 +55,14 @@ public:
 			this->nrDrumuri = 0;
 		}
 	}
+
+	~Autoturism()
+	{
+		delete[] distanteParcurse;
+		distanteParcurse = nullptr;
+		nrDrumuri = 0;
+	}
+
 
 
 	string getMarca()
