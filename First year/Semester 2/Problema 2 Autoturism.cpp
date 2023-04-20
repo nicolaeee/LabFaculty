@@ -13,6 +13,7 @@ private:
 	float* distanteParcurse;
 	int nrDrumuri; //nr de elemente al vectorului de mai sus
 	static int numarAutoturisme;
+	char* taraDeProductie;
 
 public:
 	Autoturism()
@@ -23,6 +24,7 @@ public:
 		pret = 5000;
 		distanteParcurse = nullptr;
 		nrDrumuri = 0;
+		taraDeProductie = nullptr;
 	}
 
 
@@ -34,6 +36,7 @@ public:
 		pret = 5000;
 		distanteParcurse = nullptr;
 		nrDrumuri = 0;
+		taraDeProductie = nullptr;
 	}
 
 
@@ -54,6 +57,7 @@ public:
 			this->distanteParcurse = nullptr;
 			this->nrDrumuri = 0;
 		}
+		taraDeProductie = nullptr;
 	}
 
 	~Autoturism()
@@ -61,8 +65,9 @@ public:
 		delete[] distanteParcurse;
 		distanteParcurse = nullptr;
 		nrDrumuri = 0;
+		delete[] taraDeProductie;
+		taraDeProductie = nullptr;
 	}
-
 	Autoturism(const Autoturism& other)
 	{
 		marca = other.marca;
@@ -78,6 +83,13 @@ public:
 		}
 		else {
 			distanteParcurse = nullptr;
+		}
+		if (other.taraDeProductie != nullptr) {
+			taraDeProductie = new char[strlen(other.taraDeProductie) + 1];
+			strcpy_s(taraDeProductie, strlen(other.taraDeProductie) + 1, other.taraDeProductie);
+		}
+		else {
+			taraDeProductie = nullptr;
 		}
 	}
 
@@ -145,18 +157,28 @@ public:
 	}
 
 
-	char* getTaraDeProductie()
+	char* getTaraDeProductie() const
 	{
-		return nullptr;
+		if (taraDeProductie == nullptr) {
+			return nullptr;
+		}
+		char* copie = new char[strlen(taraDeProductie) + 1];
+		strcpy_s(copie, strlen(taraDeProductie) + 1, taraDeProductie);
+		return copie;
 	}
 
 	void setTaraDeProductie(const char* tara)
 	{
+		if (taraDeProductie != nullptr) {
+			delete[] taraDeProductie;
+		}
+		taraDeProductie = new char[strlen(tara) + 1];
+		strcpy_s(taraDeProductie, strlen(tara) + 1, tara);
 	}
 
-	char* AdresaInceputTaraDeProductie()
+	char* AdresaInceputTaraDeProductie() const
 	{
-		return nullptr;
+		return taraDeProductie;
 	}
 
 	Autoturism operator=(Autoturism a)
