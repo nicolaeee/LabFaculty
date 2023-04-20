@@ -38,7 +38,23 @@ public:
 
 	Autoturism(string marca, string model, float* distante, int nrDrumuri)
 	{
+		this->marca = marca;
+		this->model = model;
+		this->putere = 0;
+		this->pret = 5000;
+		if (nrDrumuri > 0) {
+			this->distanteParcurse = new float[nrDrumuri];
+			for (int i = 0; i < nrDrumuri; i++) {
+				this->distanteParcurse[i] = distante[i];
+			}
+			this->nrDrumuri = nrDrumuri;
+		}
+		else {
+			this->distanteParcurse = nullptr;
+			this->nrDrumuri = 0;
+		}
 	}
+
 
 	string getMarca()
 	{
@@ -214,5 +230,21 @@ int main()
 	cout << "Model: " << masina.getModel() << endl;
 	cout << "Putere: " << masina.getPutere() << endl;
 	cout << "Pret: " << masina.getPret() << endl;
+
+	//3
+	float distante[] = { 100, 200, 300 };
+	int nrDrumuri = 3;
+	Autoturism autoturism("Audi", "A4", distante, nrDrumuri);
+	cout << "Marca: " << autoturism.getMarca() << endl;
+	cout << "Model: " << autoturism.getModel() << endl;
+	cout << "Putere: " << autoturism.getPutere() << endl;
+	cout << "Pret: " << autoturism.getPret() << endl;
+	cout << "Numar drumuri: " << autoturism.getNrDrumuri() << endl;
+	cout << "Distante parcurse: ";
+	float* distanteParcurse = autoturism.getDistanteParcurse();
+	for (int i = 0; i < nrDrumuri; i++) {
+		cout << distanteParcurse[i] << " ";
+	}
+	cout << endl;
 
 }
