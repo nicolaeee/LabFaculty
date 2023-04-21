@@ -16,7 +16,7 @@ private:
 	char* taraDeProductie;
 
 public:
-	Autoturism() : serieCaroserie(++numarAutoturisme)
+	Autoturism() : serieCaroserie(++numarAutoturisme) // Am creat un constructor implicit cu date constante conform cerintei unde datele le iau din cerinta
 	{
 		marca = "Necunoscuta";
 		model = "Necunoscut";
@@ -28,7 +28,8 @@ public:
 	}
 
 
-	Autoturism(string marca, string model, int putere) : serieCaroserie(++numarAutoturisme) {
+	Autoturism(string marca, string model, int putere) : serieCaroserie(++numarAutoturisme) { //Creez un constructor cu 3 parametri pentru un anumit obiect
+		//Prin this -> marca : cer datele sa fie introduse in acest aceasta clasa si sa creez un nou obicect cu anumite atribute
 		this->marca = marca;
 		this->model = model;
 		this->putere = putere;
@@ -93,12 +94,6 @@ public:
 		}
 	}
 
-
-
-
-
-
-
 	string getMarca()
 	{
 		return marca;
@@ -131,6 +126,7 @@ public:
 			this->marca = marca;
 		}
 	}
+
 
 	int getNrDrumuri() const {
 		return nrDrumuri;
@@ -191,10 +187,12 @@ public:
 	int getSerieCaroserie() const {
 		return serieCaroserie;
 	}
+
 	Autoturism operator=(Autoturism a)
 	{
 		return *this;
 	}
+
 	static double calcul_valoare_flota(Autoturism masini[], int nr_masini)
 	{
 		double valoare_totala = 0;
@@ -298,7 +296,19 @@ int Autoturism::numarAutoturisme = 0;
 //sunt ocupate de doua masini cu 160, respectiv 75 de cai putere, s.a.m.d.
 int** locuri_libere(Autoturism*** matrice, int nrLinii, int nrColoane)
 {
-	return nullptr;
+	int** locuriParcare = new int* [nrLinii];
+	for (int i = 0; i < nrLinii; i++) {
+		locuriParcare[i] = new int[nrColoane];
+		for (int j = 0; j < nrColoane; j++) {
+			if (matrice[i][j] == nullptr) {
+				locuriParcare[i][j] = 0;
+			}
+			else {
+				locuriParcare[i][j] = matrice[i][j]->getPutere();
+			}
+		}
+	}
+	return locuriParcare;
 }
 
 
@@ -373,22 +383,11 @@ int main()
 
 	//11 --
 
-	//12 
-	cout << "Serie caroserie a1: " << autoturism.getSerieCaroserie() <<endl;
+	//12
+	cout << "Serie caroserie a1: " << autoturism.getSerieCaroserie() << endl;
 	cout << "Serie caroserie a1: " << masina.getSerieCaroserie() << endl;
 
-	//13
-	Autoturism masini[3];
-
-	// seteaza preturile masinilor din vector
-	masini[0].setPret(100);
-	masini[1].setPret(150);
-	masini[2].setPret(200);
-
-	// calculeaza valoarea totala a flotei de autoturisme si afiseaza rezultatul
-	double valoareFlota = Autoturism::calcul_valoare_flota(masini, 3);
-	cout << "Valoarea totala a flotei este: " << valoareFlota << endl;
-	cout << "\n";
+	//13--
 
 
 	//14
@@ -397,11 +396,11 @@ int main()
 	cout << "Pretul masinii dupa discount: " << a.getPret() << endl;
 	cout << "\n";
 
+	//15
 
 
 
 
 
-	return 0;
 
 }
