@@ -40,7 +40,7 @@ public:
 	}
 
 
-	Autoturism(string marca, string model, float* distante, int nrDrumuri) : serieCaroserie(++numarAutoturisme)
+	Autoturism(string marca, string model, float* distante, int nrDrumuri) : serieCaroserie(++numarAutoturisme) //Creez un constructor cu 4 parametri pt un anumit obiect
 	{
 		this->marca = marca;
 		this->model = model;
