@@ -56,5 +56,8 @@ int main() {
     cout << "\n";
     Medicament a2 = a1;
     a2.afiseazaDetalii();
+    a2.setNume("Nurofen");
+    a2.setPret(30.8);
+    Medicament a4("Bixtonim", 300, "acalsafcslc", 25.5);
     return 0;
 }
