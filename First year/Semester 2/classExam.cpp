@@ -1,63 +1,70 @@
 #include <iostream>
+#include <vector>
 #include <string>
-#include <cstring>
-using namespace std;
 
-class Medicament {
+class Medicam {
+private:
+    char* nume;
+    int concentr;
+    std::string subsAct;
+    double pret;
+
 public:
-    Medicament() {
-        nume = "";
+    Medicam() {
+        nume = nullptr;
         concentr = 0;
         subsAct = "";
         pret = 0.0;
     }
 
-    Medicament(string numeMedicament, int concentratie, string substantaActiva, double pretMedicament) {
-        nume = numeMedicament;
+    Medicam(const char* numeMedicament, int concentratie, const std::string& substantaActiva, double pretMedicament) {
+        nume = new char[strlen(numeMedicament) + 1];
+        strcpy_s(nume, strlen(numeMedicament) + 1, numeMedicament);
         concentr = concentratie;
         subsAct = substantaActiva;
         pret = pretMedicament;
     }
 
-    void setNume(string numeMedicament) {
-        nume = numeMedicament;
+    ~Medicam() {
+        delete[] nume;
     }
 
-    void setConcentr(int concentratie) {
-        concentr = concentratie;
+    friend std::ostream& operator<<(std::ostream& os, const Medicam& m) {
+        os << m.nume << " - " << m.concentr << " - " << m.subsAct << " - " << m.pret;
+        return os;
     }
+};
 
-    void setSubsAct(string substantaActiva) {
-        subsAct = substantaActiva;
-    }
-
-    void setPret(double pretMedicament) {
-        pret = pretMedicament;
-    }
-
-    void afiseazaDetalii() const {
-        cout << "Nume medicament: " << nume << endl;
-        cout << "Concentratie: " << concentr << endl;
-        cout << "Substanta activa: " << subsAct << endl;
-        cout << "Pret: " << pret << endl;
-    }
-
+class Reteta {
 private:
-    string nume;
-    int concentr;
-    string subsAct;
-    double pret;
+    std::vector<Medicam>* medicam;
+    int nrMed;
+
+public:
+    Reteta(Medicam* m, int n) {
+        medicam = new std::vector<Medicam>(m, m + n);
+        nrMed = n;
+    }
+
+    ~Reteta() {
+        delete medicam;
+    }
+
+    friend std::ostream& operator<<(std::ostream& os, const Reteta& r) {
+        os << "Reteta contine " << r.nrMed << " medicamente:\n";
+        for (int i = 0; i < r.nrMed; i++) {
+            os << r.medicam->at(i) << "\n";
+        }
+        return os;
+    }
 };
 
 int main() {
-    Medicament a1("Aspirina", 500, "acetisalicilc", 10.5);
-    a1.afiseazaDetalii();
-
-    cout << "\n";
-    Medicament a2 = a1;
-    a2.afiseazaDetalii();
-    a2.setNume("Nurofen");
-    a2.setPret(30.8);
-    Medicament a4("Bixtonim", 300, "acalsafcslc", 25.5);
+    Medicam A[] = {Medicam("Medicament 1", 10, "Substanta activa 1", 5.0),
+                   Medicam("Medicament 2", 20, "Substanta activa 2", 10.0),
+                   Medicam("Medicament 3", 30, "Substanta activa 3", 15.0),
+                   Medicam("Medicament 4", 40, "Substanta activa 4", 20.0)};
+    Reteta r1(A, 4);
+    std::cout << r1;
     return 0;
 }
