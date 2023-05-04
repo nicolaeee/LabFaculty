@@ -1,70 +1,70 @@
-//Aici conectez directivele si bibliotecele pentru execunarea corecta a programului cpp
 #include <iostream>
+#include <vector>
 #include <string>
-using namespace std;
 
-
-class Medicament {
-
-private://Avem 4 variabile membre private
-    string nume;
+class Medicam {
+private:
+    char* nume;
     int concentr;
-    string subsAct;
+    std::string subsAct;
     double pret;
 
 public:
-    //In public avem 5 metode publice pentru setarea datelor in obiectul medicament 1 prin metoda 1
-    void setNume(string numeMedicament) {
-        nume = numeMedicament;
+    Medicam() {
+        nume = nullptr;
+        concentr = 0;
+        subsAct = "";
+        pret = 0.0;
     }
 
-    void setConcentr(int concentratie) {
-        concentr = concentratie;
-    }
-
-    void setSubsAct(string substantaActiva) {
-        subsAct = substantaActiva;
-    }
-
-    void setPret(double pretMedicament) {
-        pret = pretMedicament;
-    }
-
-    //Aici am o metoda care imi afiseaza aceste date de la obiectul pe care am sa l selectez prin .metoda
-    void afiseazaDetalii()  {
-        cout << "Nume medicament: " << nume << endl;
-        cout << "Connncentratie: " << concentr << endl;
-        cout << "Substanta activa: " << subsAct << endl;
-        cout << "Pret: " << pret << endl;
-    }
-
-    void setTot(string numeMedicament, int concentratie, string substantaActiva, double pretMedicament) {
-        nume = numeMedicament;
+    Medicam(const char* numeMedicament, int concentratie, const std::string& substantaActiva, double pretMedicament) {
+        nume = new char[strlen(numeMedicament) + 1];
+        strcpy_s(nume, strlen(numeMedicament) + 1, numeMedicament);
         concentr = concentratie;
         subsAct = substantaActiva;
         pret = pretMedicament;
     }
 
+    ~Medicam() {
+        delete[] nume;
+    }
+
+    friend std::ostream& operator<<(std::ostream& os, const Medicam& m) {
+        os << m.nume << " - " << m.concentr << " - " << m.subsAct << " - " << m.pret;
+        return os;
+    }
 };
 
+class Reteta {
+private:
+    std::vector<Medicam>* medicam;
+    int nrMed;
 
+public:
+    Reteta(Medicam* m, int n) {
+        medicam = new std::vector<Medicam>(m, m + n);
+        nrMed = n;
+    }
+
+    ~Reteta() {
+        delete medicam;
+    }
+
+    friend std::ostream& operator<<(std::ostream& os, const Reteta& r) {
+        os << "Reteta contine " << r.nrMed << " medicamente:\n";
+        for (int i = 0; i < r.nrMed; i++) {
+            os << r.medicam->at(i) << "\n";
+        }
+        return os;
+    }
+};
 
 int main() {
-/*O clasa este un tip de date definite de utilizator care contin date si
-metode(datele sunt private si metodele sunt publice), 
-mai precis o metoda este o functie care poate face ceva anumit cu obiectul dat*/
-
-        Medicament medicament1, medicament2;
-        medicament1.setNume("Paracetamol");
-        medicament1.setConcentr(500);
-        medicament1.setSubsAct("Pasracetamol");
-        medicament1.setPret(10.99);
-        medicament1.afiseazaDetalii();
-        medicament2.setTot("Nurofen", 500, "Amidon:(", 10.99);
-        medicament2.afiseazaDetalii();
-
-
-        return 0;
-
-	
+    Medicam A[] = {Medicam("Medicament 1", 10, "Substanta activa 1", 5.0),
+                   Medicam("Medicament 2", 20, "Substanta activa 2", 10.0),
+                   Medicam("Medicament 3", 30, "Substanta activa 3", 15.0),
+                   Medicam("Medicament 4", 40, "Substanta activa 4", 20.0)};
+    Reteta r1(A, 4);
+    std::cout << r1;
+    return 0;
 }

@@ -16,7 +16,7 @@ private:
 	char* taraDeProductie;
 
 public:
-	Autoturism() : serieCaroserie(++numarAutoturisme) // Am creat un constructor implicit cu date constante conform cerintei unde datele le iau din cerinta
+	Autoturism() : serieCaroserie(++numarAutoturisme)
 	{
 		marca = "Necunoscuta";
 		model = "Necunoscut";
@@ -28,8 +28,7 @@ public:
 	}
 
 
-	Autoturism(string marca, string model, int putere) : serieCaroserie(++numarAutoturisme) { //Creez un constructor cu 3 parametri pentru un anumit obiect
-		//Prin this -> marca : cer datele sa fie introduse in acest aceasta clasa si sa creez un nou obicect cu anumite atribute
+	Autoturism(string marca, string model, int putere) : serieCaroserie(++numarAutoturisme) {
 		this->marca = marca;
 		this->model = model;
 		this->putere = putere;
@@ -40,7 +39,7 @@ public:
 	}
 
 
-	Autoturism(string marca, string model, float* distante, int nrDrumuri) : serieCaroserie(++numarAutoturisme) //Creez un constructor cu 4 parametri pt un anumit obiect
+	Autoturism(string marca, string model, float* distante, int nrDrumuri) : serieCaroserie(++numarAutoturisme)
 	{
 		this->marca = marca;
 		this->model = model;
