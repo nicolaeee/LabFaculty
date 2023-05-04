@@ -89,10 +89,9 @@ public:
 		return c;
 	}
 
-	int getNumarPaginiRamase(Cartus c, int nrPaginiPrintate) {
-		int nrPaginiMax = c.getNrTotalPagini();
-		int nrPaginiRamase = nrPaginiMax - nrPaginiPrintate;
-		return nrPaginiRamase > 0 ? nrPaginiRamase : 0;
+	int getNumarPaginiRamase()
+	{
+		return 0;
 	}
 
 
