@@ -17,7 +17,7 @@ class Imprimanta
 {
 private:
 	const int serialNumber = 0;
-	char* producator;
+	char* producator = nullptr;
 	int nrPaginiPrintate;
 	static string tipImprimanta;
 	Cartus cartus;
@@ -70,15 +70,20 @@ public:
 		Imprimanta::tipImprimanta = tipImprimanta;
 	}
 
-	static long getTotalPaginiPerProducator(Imprimanta* imprimante, int nrImprimante, char* producator) {
+	static long getTotalPaginiPerProducator(Imprimanta* imprimante, int nrImprimante, const char* searchProducator) {
 		long totalPagini = 0;
 		for (int i = 0; i < nrImprimante; i++) {
-			if (strcmp(imprimante[i].producator, producator) == 0) {
+			if (strcmp(imprimante[i].producator, const_cast<char*>(searchProducator)) == 0) {
 				totalPagini += imprimante[i].nrPaginiPrintate;
 			}
 		}
 		return totalPagini;
 	}
+
+
+
+
+
 
 	void setCartus(Cartus c)
 	{
@@ -89,9 +94,11 @@ public:
 	{
 		return cartus;
 	}
+
 	int getNrPaginiPrintate() {
 		return nrPaginiPrintate;
 	}
+
 	int getNumarPaginiRamase()
 	{
 		int nrmax = cartus.getNrTotalPagini();
@@ -211,6 +218,9 @@ int main()
 	//1
 	Imprimanta myImprimanta;
 	cout << myImprimanta << endl;
+	cout << myImprimanta.getNrPaginiPrintate() << '\n ';
+	cout << myImprimanta.getTipImprimanta << '\n';
+
 
 	//2
 	int serialNumber = 12345;
@@ -218,14 +228,19 @@ int main()
 	int nrPaginiPrintate = 100;
 	Imprimanta myImprimantaTwo(serialNumber, producator, nrPaginiPrintate);
 	cout << myImprimantaTwo << endl;
+	cout << myImprimantaTwo.getNrPaginiPrintate() << '\n';
+	cout << myImprimantaTwo.getTipImprimanta << '\n';
+
 
 	//3
-	//Destructorul este descris in clasa
+	//Destructorul este descris in clasa dar functioneaza conform testului
 
 	//4
 	Imprimanta myImprimantaThree(2121, "HP", 150);
 	myImprimantaTwo = myImprimantaThree;
 	cout << myImprimantaThree << endl;
+	cout << myImprimantaThree.getNrPaginiPrintate() << '\n';
+	cout << myImprimantaThree.getTipImprimanta << '\n';
 
 	//5
 	Imprimanta myImprimantaFourth;
@@ -241,6 +256,34 @@ int main()
 	//Am modificat acest membru si am creat o functie publica de acces
 	Imprimanta myImprimantaFifth(212122, "Sony", 250);
 	cout << myImprimantaFifth.getTipImprimanta() << '\n';
+
+	//8
+	Imprimanta Imprimante[] = {
+	  Imprimanta(1, "HP", 100),
+	  Imprimanta(2, "Canon", 50),
+	  Imprimanta(3, "HP", 200),
+	  Imprimanta(4, "Epson", 75)
+	};
+	cout << Imprimante->getNumarPaginiRamase();
+
+	//9
+	Cartus c1;
+	Imprimanta i1;
+	i1.setCartus(c1);
+	Cartus c2 = i1.getCartus();
+	int nrTotalPagini = c2.getNrTotalPagini();
+	cout << "Numar total de pagini in cartusul asociat imprimantei: " << nrTotalPagini << endl;
+
+	//10
+	Imprimanta myImprimantaSix(222121, "Canon", 250);
+	cout << myImprimantaSix.getNumarPaginiRamase();
+
+	//11
+	cout << myImprimantaFifth.getNumarPaginiRamase() << endl;
+	cout << myImprimantaSix << endl;
+
+	//12
+	cout << myImprimantaSix;
 
 
 	return 0;
