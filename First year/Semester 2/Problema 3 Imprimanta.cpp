@@ -227,6 +227,21 @@ int main()
 	myImprimantaTwo = myImprimantaThree;
 	cout << myImprimantaThree << endl;
 
+	//5
+	Imprimanta myImprimantaFourth;
+	myImprimantaFourth = myImprimantaThree;
+	cout << myImprimantaFourth << endl;
+	cout << myImprimantaFourth.getNrPaginiPrintate() << '\n';
+	cout << myImprimantaFourth.getTipImprimanta << '\n';
+
+	//6
+	//Acest membru este inaccesibil pentru a fi utilizat in main() dar functioneaza conform testului
+
+	//7
+	//Am modificat acest membru si am creat o functie publica de acces
+	Imprimanta myImprimantaFifth(212122, "Sony", 250);
+	cout << myImprimantaFifth.getTipImprimanta() << '\n';
+
 
 	return 0;
 }
