@@ -59,12 +59,13 @@ public:
 	{
 		return 100;
 	}
-
+	
 	// Destructorul
 	~TrainRoute()
 	{
 		delete[] trainCode;
 	}
+
 };
 
 
@@ -75,9 +76,10 @@ protected:
 	float* weigthPerWagon;
 
 public:
-	FreightTrainRoute() : TrainRoute("", "", "")
+	FreightTrainRoute() : TrainRoute("", "", "Necunoscut"), nbOfWagons(0), weigthPerWagon(nullptr)
 	{
 	}
+
 
 	FreightTrainRoute(string departure, string destination, const char* trainCode) :
 		TrainRoute(departure, destination, trainCode)
@@ -86,7 +88,22 @@ public:
 
 	void setWeigth(int nbOfWagons, float* weightPerWagon)
 	{
+		// Ștergem vectorul de greutăți anterior, dacă exista
+		delete[] this->weigthPerWagon;
+
+		// Alocăm un nou vector pentru greutăți
+		this->weigthPerWagon = new float[nbOfWagons];
+
+		// Copiem greutățile în noul vector
+		for (int i = 0; i < nbOfWagons; i++)
+		{
+			this->weigthPerWagon[i] = weightPerWagon[i];
+		}
+
+		// Actualizăm numărul de vagoane
+		this->nbOfWagons = nbOfWagons;
 	}
+
 };
 
 ostream& operator<<(ostream& o, TrainRoute t)
