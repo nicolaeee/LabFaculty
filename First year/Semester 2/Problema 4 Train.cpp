@@ -69,6 +69,8 @@ public:
 };
 
 
+
+
 class FreightTrainRoute : public TrainRoute
 {
 protected:
@@ -80,10 +82,48 @@ public:
 	{
 	}
 
-
 	FreightTrainRoute(string departure, string destination, const char* trainCode) :
-		TrainRoute(departure, destination, trainCode)
+		TrainRoute(departure, destination, trainCode), nbOfWagons(0), weigthPerWagon(nullptr)
 	{
+	}
+
+	// Constructorul de copiere
+	FreightTrainRoute(const FreightTrainRoute& other)
+		: TrainRoute(other), nbOfWagons(other.nbOfWagons), weigthPerWagon(nullptr)
+	{
+		if (other.weigthPerWagon != nullptr)
+		{
+			weigthPerWagon = new float[nbOfWagons];
+			for (int i = 0; i < nbOfWagons; i++)
+			{
+				weigthPerWagon[i] = other.weigthPerWagon[i];
+			}
+		}
+	}
+
+	// Operatorul de atribuire
+	FreightTrainRoute& operator=(const FreightTrainRoute& other)
+	{
+		if (this != &other)
+		{
+			TrainRoute::operator=(other);
+
+			nbOfWagons = other.nbOfWagons;
+
+			delete[] weigthPerWagon;
+			weigthPerWagon = nullptr;
+
+			if (other.weigthPerWagon != nullptr)
+			{
+				weigthPerWagon = new float[nbOfWagons];
+				for (int i = 0; i < nbOfWagons; i++)
+				{
+					weigthPerWagon[i] = other.weigthPerWagon[i];
+				}
+			}
+		}
+
+		return *this;
 	}
 
 	void setWeigth(int nbOfWagons, float* weightPerWagon)
@@ -103,8 +143,13 @@ public:
 		// Actualizăm numărul de vagoane
 		this->nbOfWagons = nbOfWagons;
 	}
-
+	// Destructorul
+	~FreightTrainRoute()
+	{
+		delete[] weigthPerWagon;
+	}
 };
+
 
 ostream& operator<<(ostream& o, TrainRoute t)
 {
