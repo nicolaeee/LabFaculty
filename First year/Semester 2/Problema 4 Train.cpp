@@ -55,11 +55,20 @@ public:
 		return *this;
 	}
 
-	int totalWeight()
+	virtual int totalWeight()
 	{
 		return 100;
 	}
 	
+	friend ostream& operator<<(ostream& os, const TrainRoute& route)
+	{
+		os << "Departure: " << route.departure << endl;
+		os << "Destination: " << route.destination << endl;
+		os << "Train code: " << route.trainCode << endl;
+
+		return os;
+	}
+
 	// Destructorul
 	~TrainRoute()
 	{
@@ -85,6 +94,31 @@ public:
 	FreightTrainRoute(string departure, string destination, const char* trainCode) :
 		TrainRoute(departure, destination, trainCode), nbOfWagons(0), weigthPerWagon(nullptr)
 	{
+	}
+
+	void setWeigth(int nbOfWagons, float* weightPerWagon)
+	{
+
+		delete[] this->weigthPerWagon;
+		this->weigthPerWagon = new float[nbOfWagons];
+
+		for (int i = 0; i < nbOfWagons; i++)
+		{
+			this->weigthPerWagon[i] = weightPerWagon[i];
+		}
+
+		this->nbOfWagons = nbOfWagons;
+	}
+
+	int totalWeight() override
+	{
+		float total = 0.0;
+		for (int i = 0; i < nbOfWagons; i++)
+		{
+			total += weigthPerWagon[i];
+		}
+
+		return static_cast<int>(total);
 	}
 
 	// Constructorul de copiere
@@ -126,24 +160,8 @@ public:
 		return *this;
 	}
 
-	void setWeigth(int nbOfWagons, float* weightPerWagon)
-	{
-		// Ștergem vectorul de greutăți anterior, dacă exista
-		delete[] this->weigthPerWagon;
 
-		// Alocăm un nou vector pentru greutăți
-		this->weigthPerWagon = new float[nbOfWagons];
-
-		// Copiem greutățile în noul vector
-		for (int i = 0; i < nbOfWagons; i++)
-		{
-			this->weigthPerWagon[i] = weightPerWagon[i];
-		}
-
-		// Actualizăm numărul de vagoane
-		this->nbOfWagons = nbOfWagons;
-	}
-	// Destructorul
+	
 	~FreightTrainRoute()
 	{
 		delete[] weigthPerWagon;
