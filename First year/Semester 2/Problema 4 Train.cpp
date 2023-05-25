@@ -9,7 +9,31 @@ using namespace std;
 template <typename T>
 T concatenate(T first, T second)
 {
-	return T();
+	// Concatenate the wagon vectors of the two objects
+	first.setWeigth(first.nbOfWagons + second.nbOfWagons,
+		concatenateArrays(first.weigthPerWagon, second.weigthPerWagon,
+			first.nbOfWagons, second.nbOfWagons));
+
+	return first;
+}
+
+
+template <typename T>
+T* concatenateArrays(const T* first, const T* second, int sizeFirst, int sizeSecond)
+{
+	T* concatenated = new T[sizeFirst + sizeSecond];
+
+	for (int i = 0; i < sizeFirst; i++)
+	{
+		concatenated[i] = first[i];
+	}
+
+	for (int i = 0; i < sizeSecond; i++)
+	{
+		concatenated[sizeFirst + i] = second[i];
+	}
+
+	return concatenated;
 }
 
 class Comparable
@@ -209,8 +233,7 @@ public:
 		}
 		else
 		{
-			// Handle the case when 'c' is not of type FreightTrainRoute
-			// You can choose an appropriate return value or throw an exception
+			
 		}
 	}
 
