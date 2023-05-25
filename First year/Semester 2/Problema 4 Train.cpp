@@ -196,6 +196,7 @@ ostream& operator<<(ostream& o, const TrainRoute& t)
 	return o;
 }
 
+
 istream& operator>>(istream& i, TrainRoute& t)
 {
 	string departure;
@@ -213,11 +214,12 @@ istream& operator>>(istream& i, TrainRoute& t)
 	i.getline(trainCode, 100);
 
 	delete[] t.getTrainCode();
-	t.getTrainCode() = new char[strlen(trainCode) + 1];
-	strcpy(t.getTrainCode(), trainCode);
+	t.setTrainCode(trainCode);
+	t.getTrainCode();
 
 	return i;
 }
+
 
 
 
