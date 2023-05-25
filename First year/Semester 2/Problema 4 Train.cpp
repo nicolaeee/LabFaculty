@@ -58,16 +58,16 @@ public:
 	{
 		return 100;
 	}
-	
-	  string getDeparture() const
-    {
-        return departure;
-    }
 
-    string getDestination() const
-    {
-        return destination;
-    }
+	string getDeparture() const
+	{
+		return departure;
+	}
+
+	string getDestination() const
+	{
+		return destination;
+	}
 
 	const char* getTrainCode() const
 	{
@@ -81,14 +81,22 @@ public:
 
 	void setTrainCode(const char* code)
 	{
+		if (trainCode == code) {
+			return; // Avoid self-assignment
+		}
+
 		delete[] trainCode;
-		trainCode = new char[strlen(code) + 1];
-		strcpy_s(trainCode, strlen(code) + 1, code);
+		trainCode = nullptr;
+
+		if (code != nullptr) {
+			trainCode = new char[strlen(code) + 1];
+			strcpy_s(trainCode, strlen(code) + 1, code);
+		}
 	}
 
+
 	// Destructorul
-	~TrainRoute()
-	{
+	virtual ~TrainRoute() {
 		delete[] trainCode;
 	}
 
@@ -179,7 +187,7 @@ public:
 	}
 
 
-	
+
 	~FreightTrainRoute()
 	{
 		delete[] weigthPerWagon;
