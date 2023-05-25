@@ -106,7 +106,7 @@ public:
 
 
 
-class FreightTrainRoute : public TrainRoute
+class FreightTrainRoute : public TrainRoute, public Comparable
 {
 protected:
 	int nbOfWagons;
@@ -192,9 +192,29 @@ public:
 	{
 		delete[] weigthPerWagon;
 	}
+	int compare(Comparable& c) override
+	{
+		FreightTrainRoute* other = dynamic_cast<FreightTrainRoute*>(&c);
+		if (other)
+		{
+			int thisWeight = totalWeight();
+			int otherWeight = other->totalWeight();
+
+			if (thisWeight < otherWeight)
+				return -1;
+			else if (thisWeight > otherWeight)
+				return 1;
+			else
+				return 0;
+		}
+		else
+		{
+			// Handle the case when 'c' is not of type FreightTrainRoute
+			// You can choose an appropriate return value or throw an exception
+		}
+	}
+
 };
-
-
 ostream& operator<<(ostream& o, const TrainRoute& t)
 {
 	o << "Departure: " << t.getDeparture() << endl;
