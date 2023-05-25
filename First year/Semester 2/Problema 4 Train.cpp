@@ -280,9 +280,16 @@ bool operator<(const FreightTrainRoute& f1, const FreightTrainRoute& f2)
 	return false;
 }
 
-vector<float> ArrayToVector(FreightTrainRoute v)
+vector<float> ArrayToVector(const FreightTrainRoute& v)
 {
-	return vector<float>();
+	vector<float> weightVector(v.nbOfWagons);
+
+	for (int i = 0; i < v.nbOfWagons; i++)
+	{
+		weightVector[i] = v.weigthPerWagon[i];
+	}
+
+	return weightVector;
 }
 
 map<char*, FreightTrainRoute> ObjectsToMap(FreightTrainRoute* trains, int nbOfTrains)
