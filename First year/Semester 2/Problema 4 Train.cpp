@@ -31,12 +31,11 @@ public:
 	{
 		strcpy_s(this->trainCode, strlen(trainCode) + 1, trainCode);
 	}
-
 	// Constructorul de copiere
 	TrainRoute(const TrainRoute& other)
 		: departure(other.departure), destination(other.destination), trainCode(new char[strlen(other.trainCode) + 1])
 	{
-		strcpy(trainCode, other.trainCode);
+		strcpy_s(trainCode, strlen(other.trainCode) + 1, other.trainCode);
 	}
 
 	// Operatorul de atribuire
@@ -49,12 +48,11 @@ public:
 			departure = other.departure;
 			destination = other.destination;
 			trainCode = new char[strlen(other.trainCode) + 1];
-			strcpy(trainCode, other.trainCode);
+			strcpy_s(trainCode, strlen(other.trainCode) + 1, other.trainCode);
 		}
 
 		return *this;
 	}
-
 
 	virtual int totalWeight()
 	{
@@ -200,25 +198,25 @@ ostream& operator<<(ostream& o, const TrainRoute& t)
 
 istream& operator>>(istream& i, TrainRoute& t)
 {
-    string departure;
-    cout << "Enter departure: ";
-    getline(i, departure);
-    t.getDeparture() = departure;
+	string departure;
+	cout << "Enter departure: ";
+	getline(i, departure);
+	t.getDeparture() = departure;
 
-    string destination;
-    cout << "Enter destination: ";
-    getline(i, destination);
-    t.getDestination() = destination;
+	string destination;
+	cout << "Enter destination: ";
+	getline(i, destination);
+	t.getDestination() = destination;
 
-    cout << "Enter train code: ";
-    char trainCode[100];
-    i.getline(trainCode, 100);
+	cout << "Enter train code: ";
+	char trainCode[100];
+	i.getline(trainCode, 100);
 
-    delete[] t.getTrainCode();
-    t.getTrainCode() = new char[strlen(trainCode) + 1];
-    strcpy_s(t.getTrainCode(), strlen(trainCode) + 1, trainCode);
+	delete[] t.getTrainCode();
+	t.getTrainCode() = new char[strlen(trainCode) + 1];
+	strcpy(t.getTrainCode(), trainCode);
 
-    return i;
+	return i;
 }
 
 
