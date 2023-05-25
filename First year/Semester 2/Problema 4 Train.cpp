@@ -36,7 +36,7 @@ public:
 	TrainRoute(const TrainRoute& other)
 		: departure(other.departure), destination(other.destination), trainCode(new char[strlen(other.trainCode) + 1])
 	{
-		strcpy_s(this->trainCode, strlen(other.trainCode) + 1, other.trainCode);
+		strcpy(trainCode, other.trainCode);
 	}
 
 	// Operatorul de atribuire
@@ -49,24 +49,43 @@ public:
 			departure = other.departure;
 			destination = other.destination;
 			trainCode = new char[strlen(other.trainCode) + 1];
-			strcpy_s(this->trainCode, strlen(other.trainCode) + 1, other.trainCode);
+			strcpy(trainCode, other.trainCode);
 		}
 
 		return *this;
 	}
+
 
 	virtual int totalWeight()
 	{
 		return 100;
 	}
 	
-	friend ostream& operator<<(ostream& os, const TrainRoute& route)
-	{
-		os << "Departure: " << route.departure << endl;
-		os << "Destination: " << route.destination << endl;
-		os << "Train code: " << route.trainCode << endl;
+	  string getDeparture() const
+    {
+        return departure;
+    }
 
-		return os;
+    string getDestination() const
+    {
+        return destination;
+    }
+
+	const char* getTrainCode() const
+	{
+		return trainCode;
+	}
+
+	char* getTrainCode()
+	{
+		return trainCode;
+	}
+
+	void setTrainCode(const char* code)
+	{
+		delete[] trainCode;
+		trainCode = new char[strlen(code) + 1];
+		strcpy_s(trainCode, strlen(code) + 1, code);
 	}
 
 	// Destructorul
@@ -74,6 +93,7 @@ public:
 	{
 		delete[] trainCode;
 	}
+
 
 };
 
@@ -169,15 +189,40 @@ public:
 };
 
 
-ostream& operator<<(ostream& o, TrainRoute t)
+ostream& operator<<(ostream& o, const TrainRoute& t)
 {
+	o << "Departure: " << t.getDeparture() << endl;
+	o << "Destination: " << t.getDestination() << endl;
+	o << "Train code: " << t.getTrainCode() << endl;
+
 	return o;
 }
 
 istream& operator>>(istream& i, TrainRoute& t)
-{	
-	return i;
+{
+    string departure;
+    cout << "Enter departure: ";
+    getline(i, departure);
+    t.getDeparture() = departure;
+
+    string destination;
+    cout << "Enter destination: ";
+    getline(i, destination);
+    t.getDestination() = destination;
+
+    cout << "Enter train code: ";
+    char trainCode[100];
+    i.getline(trainCode, 100);
+
+    delete[] t.getTrainCode();
+    t.getTrainCode() = new char[strlen(trainCode) + 1];
+    strcpy_s(t.getTrainCode(), strlen(trainCode) + 1, trainCode);
+
+    return i;
 }
+
+
+
 
 bool operator<(const FreightTrainRoute& f1, const FreightTrainRoute& f2)
 {
