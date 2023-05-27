@@ -2,14 +2,13 @@
 #include <string>
 #include <vector>
 #include <set>
-#include <cstring> 
+#include <cstring>
 #include <map>
 using namespace std;
 
 template <typename T>
 T concatenate(T first, T second)
 {
-	// Concatenate the wagon vectors of the two objects
 	first.setWeigth(first.nbOfWagons + second.nbOfWagons,
 		concatenateArrays(first.weigthPerWagon, second.weigthPerWagon,
 			first.nbOfWagons, second.nbOfWagons));
@@ -51,19 +50,24 @@ private:
 	char* trainCode;
 
 public:
+	TrainRoute() : departure(""), destination(""), trainCode(nullptr)
+	{
+
+	}
+
 	TrainRoute(string departure, string destination, const char* trainCode)
 		: departure(departure), destination(destination), trainCode(new char[strlen(trainCode) + 1])
 	{
 		strcpy_s(this->trainCode, strlen(trainCode) + 1, trainCode);
 	}
-	// Constructorul de copiere
+
 	TrainRoute(const TrainRoute& other)
 		: departure(other.departure), destination(other.destination), trainCode(new char[strlen(other.trainCode) + 1])
 	{
 		strcpy_s(trainCode, strlen(other.trainCode) + 1, other.trainCode);
 	}
 
-	// Operatorul de atribuire
+
 	TrainRoute& operator=(const TrainRoute& other)
 	{
 		if (this != &other)
@@ -94,10 +98,14 @@ public:
 		return destination;
 	}
 
-	const char* getTrainCode() const
-	{
-		return trainCode;
+	void setDeparture(const string& dep) {
+		departure = dep;
 	}
+
+	void setDestination(const string& des) {
+		destination = des;
+	}
+
 
 	char* getTrainCode()
 	{
@@ -118,6 +126,8 @@ public:
 			strcpy_s(trainCode, strlen(code) + 1, code);
 		}
 	}
+
+
 
 
 	// Destructorul
@@ -172,7 +182,7 @@ public:
 		return static_cast<int>(total);
 	}
 
-	// Constructorul de copiere
+
 	FreightTrainRoute(const FreightTrainRoute& other)
 		: TrainRoute(other), nbOfWagons(other.nbOfWagons), weigthPerWagon(nullptr)
 	{
@@ -186,7 +196,7 @@ public:
 		}
 	}
 
-	// Operatorul de atribuire
+
 	FreightTrainRoute& operator=(const FreightTrainRoute& other)
 	{
 		if (this != &other)
@@ -213,7 +223,9 @@ public:
 
 
 
-	~FreightTrainRoute()
+
+
+	 virtual ~FreightTrainRoute()
 	{
 		delete[] weigthPerWagon;
 	}
@@ -233,11 +245,6 @@ public:
 			else
 				return 0;
 		}
-		else
-		{
-			// Handle the case when 'c' is not of type FreightTrainRoute
-			// You can choose an appropriate return value or throw an exception
-		}
 	}
 
 	int getNbOfWagons() const
@@ -253,11 +260,11 @@ public:
 };
 
 
-ostream& operator<<(ostream& o, const TrainRoute& t)
+ostream& operator<<(ostream& o, TrainRoute t)
 {
 	o << "Departure: " << t.getDeparture() << endl;
 	o << "Destination: " << t.getDestination() << endl;
-	o << "Train code: " << t.getTrainCode() << endl;
+	o << "Train code: " << (t.getTrainCode() !=nullptr ? t.getTrainCode() : "" )<< endl;
 
 	return o;
 }
@@ -265,23 +272,21 @@ ostream& operator<<(ostream& o, const TrainRoute& t)
 
 istream& operator>>(istream& i, TrainRoute& t)
 {
-	string departure;
-	cout << "Enter departure: ";
-	getline(i, departure);
-	t.getDeparture() = departure;
-
-	string destination;
-	cout << "Enter destination: ";
-	getline(i, destination);
-	t.getDestination() = destination;
-
-	cout << "Enter train code: ";
+	string departure, destination;
 	char trainCode[100];
+	cout << "Departure: ";
+	getline(i, departure);
+
+
+	cout << "Destination: ";
+	getline(i, destination);
+
+	cout << "Train Code: ";
 	i.getline(trainCode, 100);
 
-	delete[] t.getTrainCode();
+	t.setDeparture(departure);
+	t.setDestination(destination);
 	t.setTrainCode(trainCode);
-	t.getTrainCode();
 
 	return i;
 }
@@ -400,6 +405,163 @@ set<FreightTrainRoute>::iterator FindMyTrain(set<FreightTrainRoute> s, char* tra
 //egal cu valoarea trainCode primita drept parametru, sau set.end() daca nu exista
 //acel cod de tren in set-ul primit drept parametru
 
-int main(){
+int main() {
+	//1
+	TrainRoute GalatiBrasov("Galati", "Brasov", "123");
+	TrainRoute BucurestiCluj = GalatiBrasov;
+	cout << "Ruta 1: " << GalatiBrasov.getTrainCode() << endl;
+	cout << "Ruta 2: " << BucurestiCluj.getTrainCode() << endl;
+	cout << '\n';
+
+	//2
+	TrainRoute BrasovBucuresti("Brasov", "Bucuresti", "234"); //Atribuire
+	TrainRoute BucurestiBrasov = BrasovBucuresti; //Copiere
+	//Destrucorul comform regulei celor 3 automat v-a dezaloca memoria alocata
+	cout << '\n';
+
+	//3
+	TrainRoute Ruta;
+	cout << "Introduceti informațiile despre ruta:" << endl;
+	cin >> Ruta;
+	cout << "Informatii despre ruta:" << endl;
+	cout << Ruta << endl;
+	cout << '\n';
+
+	//4
+	FreightTrainRoute RouteTwo;
+	cout << RouteTwo << endl;
+	cout << '\n';
+
+	//5
+	FreightTrainRoute GalatiBerlin("Galati", "Berlin", "221");
+	cout << GalatiBerlin << endl;
+	cout << '\n';
+
+	//6
+	FreightTrainRoute train;
+	// Definirea vectorului de greutati
+	float weights[] = { 10.5, 20.3, 15.8 };
+	// Setarea greutăților pe obiectul train
+	int numWagons = sizeof(weights) / sizeof(float);
+	train.setWeigth(numWagons, weights);
+	// Afisarea informatiilor despre tren
+	cout << "Informatii despre tren:" << endl;
+	cout << "Numar vagoane: " << train.getNbOfWagons() << endl;
+	const float* weightPerWagon = train.getWeightPerWagon();
+	cout << "Greutati pe vagoane: ";
+	for (int i = 0; i < numWagons; i++) {
+		cout << weightPerWagon[i] << " ";
+	}
+	cout << '/n';
+
+	//7
+	FreightTrainRoute BerlinGalati("Berlin", "Galati", "546"); //Atribuirea
+	FreightTrainRoute DortmundGalati = BerlinGalati;//Copiere
+	//Destrucorul comform regulei celor 3 automat v-a dezaloca memoria alocata
+	cout << '/n';
+
+	//9
+	cout << BerlinGalati.totalWeight();
+	cout << '/n';
+
+	//10
+	//Am initalizat destructorul cu virtual pentru a evita memory leaks
+
+	//11
+	//Crearea a două obiecte FreightTrainRoute
+	FreightTrainRoute train1;
+	FreightTrainRoute train2;
+
+	// Setarea greutăților pe obiectul train1
+	float weights1[] = { 10.5, 20.3, 15.8 };  // Exemplu de vector de greutăți pentru train1
+	int numWagons1 = sizeof(weights1) / sizeof(float);
+	train1.setWeigth(numWagons1, weights1);
+
+	//Setarea greutăților pe obiectul train2
+	float weights2[] = { 12.2, 18.6, 14.9 };
+	int numWagons2 = sizeof(weights2) / sizeof(float);
+	train2.setWeigth(numWagons2, weights2);
+
+	//Apelarea metodei compare pentru a compara cele două obiecte
+	int result = train1.compare(train2);
+
+	//Afișarea rezultatului comparației
+	if (result < 0)
+	{
+		cout << "Train1 are o greutate totala mai mica decat Train2." << '/n';
+	}
+	else if (result > 0)
+	{
+		cout << "Train1 are o greutate totala mai mare decat Train2." << '/n';
+	}
+	else
+	{
+		cout << "Train1 si Train2 au aceeasi greutate totala." << '/n';
+	}
+	cout << '/n';
+
+	//12
+	int firstArray[] = { 1, 2, 3 };
+	int sizeFirstArray = sizeof(firstArray) / sizeof(int);
+
+	int secondArray[] = { 4, 5, 6 };
+	int sizeSecondArray = sizeof(secondArray) / sizeof(int);
+
+	int* concatenatedInt = concatenateArrays(firstArray, secondArray, sizeFirstArray, sizeSecondArray);
+
+	cout << "Concatenated array of type int: "<<'/n';
+	for (int i = 0; i < sizeFirstArray + sizeSecondArray; i++)
+	{
+		cout << concatenatedInt[i] << " ";
+	}
+	cout << '/n';
+
+	// Eliberarea memoriei alocate pentru array-ul rezultat
+	delete[] concatenatedInt;
+
+
+	// Crearea a două array-uri de tip char
+	char firstCharArray[] = "Brasov";
+	int sizeFirstCharArray = strlen(firstCharArray);
+
+	char secondCharArray[] = "Galati";
+	int sizeSecondCharArray = strlen(secondCharArray);
+
+	// Apelarea funcției concatenateArrays pentru array-urile de tip char
+	char* concatenatedChar = concatenateArrays(firstCharArray, secondCharArray, sizeFirstCharArray, sizeSecondCharArray);
+
+	// Afișarea array-ului rezultat
+	cout << "Doi vectori char concatinati: " << concatenatedChar << endl;
+
+	// Eliberarea memoriei alocate pentru array-ul rezultat
+	delete[] concatenatedChar;
+	cout << '/n';
+
+	//13
+	// Crearea unui obiect FreightTrainRoute
+	FreightTrainRoute myTrain;
+	myTrain.setWeigth(3, new float[3] { 10.5f, 20.3f, 15.7f });
+
+	// Apelarea funcției ArrayToVector pentru obiectul FreightTrainRoute
+	vector<float> weightVector = ArrayToVector(myTrain);
+
+	// Afișarea vectorului rezultat
+	cout << "Weight vector:";
+	for (float weight : weightVector)
+	{
+		cout << " " << weight;
+	}
+	cout << '/n';
+
+	// Eliberarea memoriei alocate pentru obiectul FreightTrainRoute
+	delete[] myTrain.getWeightPerWagon();
+
+
+
+
+
+
+
+
 	return 0;
 }
